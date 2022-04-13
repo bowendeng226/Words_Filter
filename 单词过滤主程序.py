@@ -160,13 +160,15 @@ f3a_unknown_list = []
 
 print("\n开始过滤频率>=3的单词：\n")
 
+print("--------------------")
+
 for i in danci_freq_3a:
 
-    answer = input(i + " 按1添加到熟词：")
+    answer = input(i + " 熟词按1，跳过按2，生词按3：")
 
     if answer == '1':
         f3a_known_list.append(i)
-        print("------" + i + " 已添加到熟词\n" + str(len(f3a_known_list)) + \
+        print("------" + i + " 熟词按1，跳过按2，生词按3\n" + str(len(f3a_known_list)) + \
             '/' + str(len(danci_freq_3a)) + "\n")
     elif answer == '3':
         f3a_unknown_list.append(i)
@@ -181,9 +183,11 @@ f2_unknown_list = []
 
 print("\n开始过滤频率为2的单词：\n")
 
+print("--------------------")
+
 for i in danci_freq_2:
 
-    answer = input(i + " 按1添加到熟词：")
+    answer = input(i + " 熟词按1，跳过按2，生词按3：")
 
     if answer == '1':
         f2_known_list.append(i)
@@ -202,6 +206,8 @@ f1_known_list = []
 f1_unknown_list = []
 
 print("\n开始过滤频率为1的单词：\n")
+
+print("--------------------")
 
 for i in danci_freq_1:
 
