@@ -152,6 +152,31 @@ for li in [danci_freq_1, danci_freq_2, danci_freq_3a]:
     print("\n")
 
 
+
+# 从上次的位置恢复
+
+get_recover = input("\n是否从上次的位置恢复？y/n\n")
+
+if get_recover.lower() == 'y':
+    get_list_name = input("\n请选择上次位置：3频率>=3；2频率=2；1频率=1\n")
+    
+    position_prompt = "\n请输入上次位置的索引值：\n"    
+    if get_list_name == '3':
+        get_position = input(position_prompt)
+        danci_freq_3a = danci_freq_3a[int(get_position):] #仅保留索引值后的内容
+    elif get_list_name == '2':
+        danci_freq_3a = [] #删除频率3列表内容
+        get_position = input(position_prompt)
+        danci_freq_2 = danci_freq_2[int(get_position):]
+    elif get_list_name == '1':
+        danci_freq_3a = []
+        danci_freq_2 = []
+        get_position = input(position_prompt)
+        danci_freq_1 = danci_freq_1[int(get_position):]
+
+
+
+
 # 主动式在生词列表中挑选出熟词
 
 # 为避免很长的项目中途退出不能保存单词，因此开发暂存机制
@@ -212,7 +237,6 @@ for i in danci_freq_3a:
         if answer == '1':
             f3a_known_list.append(i)
             kn_f_obj.write(i + " ") #写入暂存熟词
-            # rate =  str(len(danci_freq_3a)) + '/' + list_len #剩余单词
             print("\n------ " + i + " 已添加到熟词\n")
             
         elif answer == '3':
