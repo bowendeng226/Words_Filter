@@ -3,20 +3,22 @@
 from doctest import DONT_ACCEPT_BLANKLINE
 
 
-basic_path = "C:\\Users\\bowen\\OneDrive\\Personal Documents\\英语\\scfx\
-\\熟词库.txt"
+# 导入
 
-file_name = input("\n请输入要导入的文件名称（不要包含扩展名）：")
+basic_library_path = "C:\\Users\\bowen\\OneDrive\\Code\\单词过滤系统\\熟词库.txt"
 
-obj_path = "C:\\Users\\bowen\\Desktop\\" + file_name + ".txt"
+input_file_name = input("\n请输入要导入的文件名称（不要包含扩展名）：")
 
-with open(basic_path) as f_obj:
+obj_path = "C:\\Users\\bowen\\Desktop\\" + input_file_name + ".txt"
+
+with open(basic_library_path) as f_obj:
     contents = f_obj.read()
     basic = contents.split()
 
 with open(obj_path) as f_obj:
     contents = f_obj.read()
     w_obj = contents.split()
+
 
 # 格式化：将要过滤的列表和熟词列表全部小写并排序
 
@@ -35,6 +37,7 @@ for word in w_obj:
 fo_obj = sorted(fo_obj)
 
 copy_obj = fo_obj[:] # 复制最初的生词列表，以备统计生词率
+
 
 # 过滤
 
@@ -64,13 +67,6 @@ message = "\n总计单词（含重复）：" + str(len(fo_obj)) + "\n" + \
     "生词（含重复）：" + str(len(shengci)) + "\n" + \
     "此处统计（含重复）的生词/全词比：" + \
     str(round(len(shengci)/len(fo_obj)*100, 1)) + "%" + "\n"
-
-# print("\n总计单词（含重复）：" + str(len(fo_obj)))
-
-# print("生词（含重复）：" + str(len(shengci)))
-
-# print("此处统计（含重复）的生词/全词比：" + \
-# str(round(len(shengci)/len(fo_obj)*100, 1)) + "%" + "\n")
 
 # 剔除熟词重复项
 
@@ -138,10 +134,6 @@ for k, v in shengci_freq.items():
     elif v == 1:
         danci_freq_1.append(k)
 
-# for lst in [danci_freq_1, danci_freq_2, danci_freq_3a]:
-#     for i in lst:
-#         if len(i) <= 3:
-#             lst.remove(i)
 
 for i in danci_freq_3a:
     if len(i) <= 3:
@@ -159,14 +151,12 @@ for li in [danci_freq_1, danci_freq_2, danci_freq_3a]:
     print(li)
     print("\n")
 
+
 # 主动式在生词列表中挑选出熟词
 
+f3a_known_list = []
 
-
-
-
-f3_known_list = []
-f3_unknown_list = []
+f3a_unknown_list = []
 
 print("\n开始过滤频率>=3的单词：\n")
 
@@ -175,17 +165,18 @@ for i in danci_freq_3a:
     answer = input(i + " 按1添加到熟词：")
 
     if answer == '1':
-        f3_known_list.append(i)
-        print("------" + i + " 已添加到熟词\n" + str(len(f3_known_list)) + \
+        f3a_known_list.append(i)
+        print("------" + i + " 已添加到熟词\n" + str(len(f3a_known_list)) + \
             '/' + str(len(danci_freq_3a)) + "\n")
     elif answer == '3':
-        f3_unknown_list.append(i)
+        f3a_unknown_list.append(i)
         print("已添加到生词列表\n")
     else:
         print("已跳过\n")
 
 
 f2_known_list = []
+
 f2_unknown_list = []
 
 print("\n开始过滤频率为2的单词：\n")
@@ -207,6 +198,7 @@ for i in danci_freq_2:
 
 
 f1_known_list = []
+
 f1_unknown_list = []
 
 print("\n开始过滤频率为1的单词：\n")
@@ -229,7 +221,7 @@ for i in danci_freq_1:
 
 # 实际的生词率：
 
-unknown_list = f1_unknown_list + f2_unknown_list + f3_unknown_list
+unknown_list = f1_unknown_list + f2_unknown_list + f3a_unknown_list
 
 count = 0
 
@@ -240,14 +232,16 @@ for a in unknown_list:
 actural_percentage = str(round(count / len(copy_obj) * 100, 1)) + "%"
 
 count_msg1 = "\n本次单词总数：" + str(len(copy_obj))
+
 count_msg2 = "本次实际生词总数（含重复）：" + str(count)
+
 count_msg3 = "本次实际生词率：" + actural_percentage 
 
 count_msg = count_msg1 + "\n" + count_msg2 + "\n" + count_msg3
 
 # 自定义导出文件名称
 
-opt_file_name = input("\n请输入导出文件的名称：")
+out_file_name = input("\n请输入导出文件的名称：")
 
 
 '''
@@ -256,9 +250,9 @@ opt_file_name = input("\n请输入导出文件的名称：")
 
 # 把熟词写入到熟词库
 
-known_list = f1_known_list + f2_known_list + f3_known_list
+known_list = f1_known_list + f2_known_list + f3a_known_list
 
-with open(basic_path, 'a') as f_obj:
+with open(basic_library_path, 'a') as f_obj:
 
     # file_name = input("\n请输入本次文件名称：\n")
 
@@ -268,7 +262,7 @@ with open(basic_path, 'a') as f_obj:
 
     lines = "------------------------------------------------------------------"
 
-    count_info = "\n\n" + lines + "\n" + opt_file_name + "\n" + count_msg1 + \
+    count_info = "\n\n" + lines + "\n" + out_file_name + "\n" + count_msg1 + \
         "\n" + count_msg2 + "\n" + count_msg3 + "\n\n"
 
     f_obj.write(count_info) #写入统计信息
@@ -279,10 +273,10 @@ with open(basic_path, 'a') as f_obj:
 
 # 导出三类频率的单词到txt
 
-unknown_duizhao_path = "C:\\Users\\bowen\\Desktop\\" + opt_file_name + \
+unknown_duizhao_path = "C:\\Users\\bowen\\Desktop\\" + out_file_name + \
     "生词频率参考.txt"
 
-unknown_path = "C:\\Users\\bowen\\Desktop\\" + opt_file_name + "生词.txt"
+unknown_path = "C:\\Users\\bowen\\Desktop\\" + out_file_name + "生词.txt"
 
 with open(unknown_duizhao_path, 'w') as f_obj:
     for k, v in shengci_freq.items():
@@ -313,7 +307,7 @@ with open(unknown_path, 'w') as f_obj:
 
     f_obj.write(content)
 
-    for i in f3_unknown_list:
+    for i in f3a_unknown_list:
         f_obj.write(i + ' ' + "\n")
 
 print(message)
