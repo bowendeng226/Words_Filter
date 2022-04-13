@@ -154,75 +154,90 @@ for li in [danci_freq_1, danci_freq_2, danci_freq_3a]:
 
 # 主动式在生词列表中挑选出熟词
 
-f3a_known_list = []
+# 为避免很长的项目中途退出不能保存单词，因此开发暂存机制
 
-f3a_unknown_list = []
+unknown_temp_path = "C:\\Users\\bowen\\Desktop\\生词暂存.txt"
+known_temp_path = "C:\\Users\\bowen\\Desktop\\熟词暂存.txt"
 
-print("\n开始过滤频率>=3的单词：\n")
+with open(unknown_temp_path, 'a') as un_fobj, \
+    open(known_temp_path, 'a') as kn_fobj:
 
-print("--------------------")
+    # 过滤频率大于等于3的单词
 
-for i in danci_freq_3a:
+    f3a_known_list = []
 
-    answer = input(i + " 熟词按1，跳过按2，生词按3：")
+    f3a_unknown_list = []
 
-    if answer == '1':
-        f3a_known_list.append(i)
-        print("------" + i + " 熟词按1，跳过按2，生词按3\n" + str(len(f3a_known_list)) + \
-            '/' + str(len(danci_freq_3a)) + "\n")
-    elif answer == '3':
-        f3a_unknown_list.append(i)
-        print("已添加到生词列表\n")
-    else:
-        print("已跳过\n")
+    print("\n开始过滤频率>=3的单词：\n")
+    print("--------------------")
 
+    for i in danci_freq_3a:
 
-f2_known_list = []
+        answer = input(i + " 熟词按1，跳过按2，生词按3：")
 
-f2_unknown_list = []
+        if answer == '1':
+            f3a_known_list.append(i)
+            kn_fobj.write(i + " ") #写入暂存熟词
+            print("------" + i + " 已添加到熟词\n" + str(len(f3a_known_list)) + \
+                '/' + str(len(danci_freq_3a)) + "\n")
+        elif answer == '3':
+            f3a_unknown_list.append(i)
+            un_fobj.write(i + "***3+ \n") #写入暂存生词
+            print("已添加到生词列表\n")
+        else:
+            print("已跳过\n")
 
-print("\n开始过滤频率为2的单词：\n")
+    # 过滤频率为2的单词
 
-print("--------------------")
+    f2_known_list = []
 
-for i in danci_freq_2:
+    f2_unknown_list = []
 
-    answer = input(i + " 熟词按1，跳过按2，生词按3：")
+    print("\n开始过滤频率为2的单词：\n")
+    print("--------------------")
 
-    if answer == '1':
-        f2_known_list.append(i)
-        print("------" + i + " 已添加到熟词\n" + str(len(f2_known_list)) + \
-            '/' + str(len(danci_freq_2)) + "\n")
-    elif answer == '3':
-        f2_unknown_list.append(i)
-        print("已添加到生词列表\n")
+    for i in danci_freq_2:
 
-    else:
-        print("已跳过\n")
+        answer = input(i + " 熟词按1，跳过按2，生词按3：")
 
+        if answer == '1':
+            f2_known_list.append(i)
+            kn_fobj.write(i + " ") #写入暂存熟词
+            print("------" + i + " 已添加到熟词\n" + str(len(f2_known_list)) + \
+                '/' + str(len(danci_freq_2)) + "\n")
+        elif answer == '3':
+            f2_unknown_list.append(i)
+            un_fobj.write(i + "***2 \n") #写入暂存生词
+            print("已添加到生词列表\n")
 
-f1_known_list = []
+        else:
+            print("已跳过\n")
 
-f1_unknown_list = []
+    # 过滤频率为1的单词
 
-print("\n开始过滤频率为1的单词：\n")
+    f1_known_list = []
 
-print("--------------------")
+    f1_unknown_list = []
 
-for i in danci_freq_1:
+    print("\n开始过滤频率为1的单词：\n")
 
-    answer = input(i + " 按1添加到熟词：")
+    print("--------------------")
 
-    if answer == '1':
-        f1_known_list.append(i)
-        print("------" + i + " 已添加到熟词\n" + str(len(f1_known_list)) + \
-            '/' + str(len(danci_freq_1)) + "\n")
-    elif answer == '3':
-        f1_unknown_list.append(i)
-        print("已添加到生词列表\n")
-    else:
-        print("已跳过\n")
+    for i in danci_freq_1:
 
+        answer = input(i + " 按1添加到熟词：")
+
+        if answer == '1':
+            f1_known_list.append(i)
+            kn_fobj.write(i + " ") #写入暂存熟词
+            print("------" + i + " 已添加到熟词\n" + str(len(f1_known_list)) + \
+                '/' + str(len(danci_freq_1)) + "\n")
+        elif answer == '3':
+            f1_unknown_list.append(i)
+            un_fobj.write(i + "***1 \n") #写入暂存生词
+            print("已添加到生词列表\n")
+        else:
+            print("已跳过\n")
 
 
 # 实际的生词率：
@@ -247,79 +262,79 @@ count_msg = count_msg1 + "\n" + count_msg2 + "\n" + count_msg3
 
 # 自定义导出文件名称
 
-out_file_name = input("\n请输入导出文件的名称：")
+# out_file_name = input("\n请输入导出文件的名称：")
 
 
-'''
-整理熟词
-'''
+# '''
+# 整理熟词
+# '''
 
-# 把熟词写入到熟词库
+# # 把熟词写入到熟词库
 
-known_list = f1_known_list + f2_known_list + f3a_known_list
+# known_list = f1_known_list + f2_known_list + f3a_known_list
 
-with open(basic_library_path, 'a') as f_obj:
+# with open(basic_library_path, 'a') as f_obj:
 
-    # file_name = input("\n请输入本次文件名称：\n")
+#     # file_name = input("\n请输入本次文件名称：\n")
 
-    a = "\n" #分割行，区分不同批次的熟词
+#     a = "\n" #分割行，区分不同批次的熟词
 
-    f_obj.write(a)
+#     f_obj.write(a)
 
-    lines = "------------------------------------------------------------------"
+#     lines = "------------------------------------------------------------------"
 
-    count_info = "\n\n" + lines + "\n" + out_file_name + "\n" + count_msg1 + \
-        "\n" + count_msg2 + "\n" + count_msg3 + "\n\n"
+#     count_info = "\n\n" + lines + "\n" + out_file_name + "\n" + count_msg1 + \
+#         "\n" + count_msg2 + "\n" + count_msg3 + "\n\n"
 
-    f_obj.write(count_info) #写入统计信息
+#     f_obj.write(count_info) #写入统计信息
 
-    for i in known_list:
-        f_obj.write(i + ' ')
+#     for i in known_list:
+#         f_obj.write(i + ' ')
 
 
-# 导出三类频率的单词到txt
+# # 导出三类频率的单词到txt
 
-unknown_duizhao_path = "C:\\Users\\bowen\\Desktop\\" + out_file_name + \
-    "生词频率参考.txt"
+# unknown_duizhao_path = "C:\\Users\\bowen\\Desktop\\" + out_file_name + \
+#     "生词频率参考.txt"
 
-unknown_path = "C:\\Users\\bowen\\Desktop\\" + out_file_name + "生词.txt"
+# unknown_path = "C:\\Users\\bowen\\Desktop\\" + out_file_name + "生词.txt"
 
-with open(unknown_duizhao_path, 'w') as f_obj:
-    for k, v in shengci_freq.items():
-        content = k + " --- " + str(v) + " \n"
-        f_obj.write(content)
+# with open(unknown_duizhao_path, 'w') as f_obj:
+#     for k, v in shengci_freq.items():
+#         content = k + " --- " + str(v) + " \n"
+#         f_obj.write(content)
 
-with open(unknown_path, 'w') as f_obj:
+# with open(unknown_path, 'w') as f_obj:
 
-    count_info = count_msg1 + "\n" + count_msg2 + "\n" + count_msg3
+#     count_info = count_msg1 + "\n" + count_msg2 + "\n" + count_msg3
 
-    f_obj.write(count_info) #写入统计信息
+#     f_obj.write(count_info) #写入统计信息
 
-    content = "\n\n以下是频率为1的生词：\n\n"
+#     content = "\n\n以下是频率为1的生词：\n\n"
 
-    f_obj.write(content)
+#     f_obj.write(content)
 
-    for i in f1_unknown_list:
-        f_obj.write(i + ' ' + "\n")
+#     for i in f1_unknown_list:
+#         f_obj.write(i + ' ' + "\n")
 
-    content = "\n以下是频率为2的生词：\n\n"
+#     content = "\n以下是频率为2的生词：\n\n"
 
-    f_obj.write(content)
+#     f_obj.write(content)
 
-    for i in f2_unknown_list:
-        f_obj.write(i + ' ' + "\n")
+#     for i in f2_unknown_list:
+#         f_obj.write(i + ' ' + "\n")
 
-    content = "\n以下是频率>=3的生词：\n\n"
+#     content = "\n以下是频率>=3的生词：\n\n"
 
-    f_obj.write(content)
+#     f_obj.write(content)
 
-    for i in f3a_unknown_list:
-        f_obj.write(i + ' ' + "\n")
+#     for i in f3a_unknown_list:
+#         f_obj.write(i + ' ' + "\n")
 
-print(message)
+# print(message)
 
-print(count_msg + "\n")
+# print(count_msg + "\n")
 
-print("\n单词已分类保存\n")
+# print("\n单词已分类保存\n")
 
-# 保存
+# # 保存
