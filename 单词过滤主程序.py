@@ -158,21 +158,45 @@ for li in [danci_freq_1, danci_freq_2, danci_freq_3a]:
 get_recover = input("\n是否从上次的位置恢复？y/n\n")
 
 if get_recover.lower() == 'y':
+
     get_list_name = input("\n请选择上次位置：3频率>=3；2频率=2；1频率=1\n")
-    
-    position_prompt = "\n请输入上次位置的索引值：\n"    
-    if get_list_name == '3':
-        get_position = input(position_prompt)
+
+    position_prompt = "\n请输入上次位置的索引值或单词：\n"
+
+    get_position = input(position_prompt)
+
+    if len(get_position) <= 3:
+        input_type = True
+    if len(get_position) > 3:
+        input_type = False
+        
+
+    if input_type and get_list_name == '3':
         danci_freq_3a = danci_freq_3a[int(get_position):] #仅保留索引值后的内容
-    elif get_list_name == '2':
+
+    if input_type and get_list_name == '2':
         danci_freq_3a = [] #删除频率3列表内容
-        get_position = input(position_prompt)
         danci_freq_2 = danci_freq_2[int(get_position):]
-    elif get_list_name == '1':
+
+    if input_type and get_list_name == '1':
         danci_freq_3a = []
         danci_freq_2 = []
-        get_position = input(position_prompt)
         danci_freq_1 = danci_freq_1[int(get_position):]
+
+    if input_type == False:
+        if get_list_name == '3':
+            numb = danci_freq_3a.index(get_position)
+            danci_freq_3a = danci_freq_3a[numb:]
+        if get_list_name == '2':
+            numb = danci_freq_2.index(get_position)
+            danci_freq_3a = []
+            danci_freq_2 = danci_freq_2[numb:]
+        if get_list_name == '1':
+            numb = danci_freq_1.index(get_position)
+            danci_freq_3a = []
+            danci_freq_2 = []
+            danci_freq_1 = danci_freq_1[numb:]
+        
 
 
 
@@ -382,7 +406,7 @@ count_msg3 = "本次实际生词率：" + actural_percentage
 
 count_msg = count_msg1 + "\n" + count_msg2 + "\n" + count_msg3
 
-自定义导出文件名称
+# 自定义导出文件名称
 
 out_file_name = input("\n请输入导出文件的名称：")
 
