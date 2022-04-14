@@ -246,7 +246,7 @@ f3a_unknown_list = []
 print("\n开始过滤频率>=3的单词：\n")
 print("--------------------")
 
-for i in danci_freq_3a:
+for i in sorted(danci_freq_3a):
 
     with open(known_temp_path, 'a') as kn_f_obj, \
         open(unknown_temp_path, 'a') as un_f_obj:
@@ -279,7 +279,7 @@ f2_unknown_list = []
 print("\n开始过滤频率为2的单词：\n")
 print("--------------------")
 
-for i in danci_freq_2:
+for i in sorted(danci_freq_2):
 
     with open(known_temp_path, 'a') as kn_f_obj, \
         open(unknown_temp_path, 'a') as un_f_obj:
@@ -336,7 +336,7 @@ f1_unknown_list = []
 print("\n开始过滤频率为1的单词：\n")
 print("--------------------")
 
-for i in danci_freq_1:
+for i in sorted(danci_freq_1):
 
     with open(known_temp_path, 'a') as kn_f_obj, \
         open(unknown_temp_path, 'a') as un_f_obj:
