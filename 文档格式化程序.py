@@ -42,12 +42,12 @@ def clean_doc(file_name):
 
     # 去除列表中的空格和长度小于3的元素
 
-    for i in list_clean:
+    for i in list_clean[:]:
         if i == ' ' or len(i) < 4:
             list_clean.remove(i)
 
 
-    print(list_clean)
+    return list_clean
 
 clean_doc(file_name)
 
