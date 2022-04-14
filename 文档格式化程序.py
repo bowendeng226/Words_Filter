@@ -5,7 +5,6 @@
 去除数字 maybe...
 '''
 
-import re
 
 half_punctuations = "`~!@#$%^&*()-_=+[{]}\|;:'" + '",<.>/?'
 
@@ -13,7 +12,7 @@ full_punctuations = "·~！@#￥%……&*（）-——=+【{】}、|；：‘’
 
 punctuations = half_punctuations + full_punctuations
 
-file_name = "C:\\Users\\bowen\\desktop\\版本测试.txt"
+# file_name = "C:\\Users\\bowen\\desktop\\L3_unformated.txt"
 
 
 def clean_doc(file_name):
@@ -33,11 +32,11 @@ def clean_doc(file_name):
 
     content_list = contents.split()
 
-    # 去除元素的前后空格
+    # 去除元素的前后空格以及全部小写
 
     list_clean = []
     for i in content_list:
-        i = i.strip()
+        i = i.strip().lower()
         list_clean.append(i)
 
     # 去除列表中的空格和长度小于3的元素
@@ -49,5 +48,12 @@ def clean_doc(file_name):
 
     return list_clean
 
-clean_doc(file_name)
+# list_clean = clean_doc(file_name)
+
+# save_file = "C:\\Users\\bowen\\desktop\\L3_formatted.txt"
+
+# with open(save_file, 'w') as f_obj:
+#     for i in list_clean:
+#         f_obj.write(i + ' ')
+
 
