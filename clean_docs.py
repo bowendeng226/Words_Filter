@@ -1,15 +1,12 @@
 
 
-
-# file_name = "C:\\Users\\bowen\\desktop\\L3_unformated.txt"
-
-
 def clean_doc(file_name):
     """
     去除txt文档里的去除txt文档里的多余空格、换行符、制表符等；
     将文档里的单词全部小写
     去除文档里的单字母
     去除数字 （未开发...）
+    对单词进行排序
     返回一个列表
 
     Args:
@@ -51,6 +48,10 @@ def clean_doc(file_name):
     for i in list_clean[:]:
         if i == ' ' or len(i) < 4:
             list_clean.remove(i)
+
+    # 对列表排序
+
+    list_clean = sorted(list_clean)
 
     return list_clean
 
