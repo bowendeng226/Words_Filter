@@ -17,40 +17,32 @@ def clean_doc(file_name):
     """
 
     # 全角和半角标点符号
-
     half_punctuations = "`~!@#$%^&*()-_=+[{]}\|;:'" + '",<.>/?'
     full_punctuations = "·~！@#￥%……&*（）-——=+【{】}、|；：‘’“”，《。》/？"
     punctuations = half_punctuations + full_punctuations
 
     # 去除文档里的标点符号
-
     with open(file_name) as f_obj:
-
         contents = f_obj.read()
-
         for p in punctuations:
             if p in contents:
                 contents = contents.replace(p, ' ')
 
     # 将单词转为列表
-
     content_list = contents.split()
 
     # 去除元素的前后空格以及全部小写
-
     list_clean = []
     for i in content_list:
         i = i.strip().lower()
         list_clean.append(i)
 
     # 去除列表中的空格和长度小于3的元素
-
     for i in list_clean[:]:
         if i == ' ' or len(i) < 4:
             list_clean.remove(i)
 
     # 对列表排序
-
     list_clean = sorted(list_clean)
 
     return list_clean

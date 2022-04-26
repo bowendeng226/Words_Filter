@@ -28,13 +28,22 @@ def formatting_doc(file_name):
 
     # 去除文档里的标点符号
 
-    with open(file_name) as f_obj:
+    while True:
+        
+        try:
+            with open(file_name) as f_obj:
+                contents = f_obj.read()
+        except FileNotFoundError:
+            file_name = input("No such file, please enter again, \
+                or 'q' to quit")
+            if file_name.lower() == 'q':
+                break
+        else:
+            for p in punctuations:
+                if p in contents:
+                    contents = contents.replace(p, ' ')
 
-        contents = f_obj.read()
-
-        for p in punctuations:
-            if p in contents:
-                contents = contents.replace(p, ' ')
+                    break
 
     # 将单词转为列表
 

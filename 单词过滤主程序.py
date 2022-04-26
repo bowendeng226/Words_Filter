@@ -6,9 +6,7 @@ from doctest import DONT_ACCEPT_BLANKLINE
 # 导入
 
 basic_library_path = "C:\\Users\\bowen\\OneDrive\\Code\\单词过滤系统\\熟词库.txt"
-
 input_file_name = input("\n请输入要导入的文件名称（不要包含扩展名）：")
-
 obj_path = "C:\\Users\\bowen\\Desktop\\" + input_file_name + ".txt"
 
 with open(basic_library_path) as f_obj:
@@ -19,32 +17,24 @@ with open(obj_path) as f_obj:
     contents = f_obj.read()
     w_obj = contents.split()
 
-
 # 格式化：将要过滤的列表和熟词列表全部小写并排序
 
 fo_basic = []
-
 for word in basic:
     fo_basic.append(word.lower())
-
 fo_basic = sorted(fo_basic)
 
 fo_obj = []
-
 for word in w_obj:
     fo_obj.append(word.lower())
-
 fo_obj = sorted(fo_obj)
 
 copy_obj = fo_obj[:] # 复制最初的生词列表，以备统计生词率
 
-
 # 过滤
 
 shengci = []
-
 shuci = []
-
 for word in fo_obj:
     if word in fo_basic:
         shuci.append(word.lower())
@@ -71,9 +61,7 @@ message = "\n总计单词（含重复）：" + str(len(fo_obj)) + "\n" + \
 # 剔除熟词重复项
 
 shuci = set(shuci)
-
 shuci = list(shuci)
-
 
 
 """
@@ -90,22 +78,17 @@ shengci_freq = {}
 
 def count_words(word, word_list):
     '''计算生词的中重复次数，返回该单词在列表中出现的次数'''
-
     count = 0
-
     for e in word_list:
         if e == word: 
             count += 1
-
     return count
 
 
 # 将单词与其频率添加到键值对
 
 for a in shengci:
-    
     count = count_words(a, shengci)
-
     shengci_freq[a] = count
 
 # 在命令行中显示出单词频率
@@ -118,31 +101,22 @@ print("\n")
 # 挑选出频率大于三、等于二或一的单词
 
 danci_freq_3a = []
-
 danci_freq_2 =[]
-
 danci_freq_1 = []
-
 for k, v in shengci_freq.items():
-
     if v >= 3:
         danci_freq_3a.append(k)
-
     elif v == 2:
         danci_freq_2.append(k)
-
     elif v == 1:
         danci_freq_1.append(k)
-
 
 for i in danci_freq_3a:
     if len(i) <= 3:
         danci_freq_3a.remove(i)
-
 for i in danci_freq_2:
     if len(i) <= 3:
         danci_freq_2.remove(i)
-
 for i in danci_freq_1:
     if len(i) <= 3:
         danci_freq_1.remove(i)
@@ -151,33 +125,24 @@ for li in [danci_freq_1, danci_freq_2, danci_freq_3a]:
     print(li)
     print("\n")
 
-
-
 # 从上次的位置恢复
 
 get_recover = input("\n是否从上次的位置恢复？y/n\n")
 
 if get_recover.lower() == 'y':
-
     get_list_name = input("\n请选择上次位置：3频率>=3；2频率=2；1频率=1\n")
-
     position_prompt = "\n请输入上次位置的索引值或单词：\n"
-
     get_position = input(position_prompt)
-
     if len(get_position) <= 3:
         input_type = True
     if len(get_position) > 3:
         input_type = False
         
-
     if input_type and get_list_name == '3':
         danci_freq_3a = danci_freq_3a[int(get_position):] #仅保留索引值后的内容
-
     if input_type and get_list_name == '2':
         danci_freq_3a = [] #删除频率3列表内容
         danci_freq_2 = danci_freq_2[int(get_position):]
-
     if input_type and get_list_name == '1':
         danci_freq_3a = []
         danci_freq_2 = []
