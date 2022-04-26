@@ -2,7 +2,7 @@ from nltk.stem import WordNetLemmatizer
 from nltk.corpus import wordnet
 from nltk import word_tokenize, pos_tag
 
-def clean_doc(file_name, keep_all=False):
+def clean_doc(file_name, keep_all=True):
     """
     去除txt文档里的去除txt文档里的多余空格、换行符、制表符等；
     将文档里的单词全部小写
@@ -43,14 +43,11 @@ def clean_doc(file_name, keep_all=False):
         for i in list_clean[:]:
             if i == " " or "":
                 list_clean.remove(i)
-    else: # 如果不保留完整列表
+    elif keep_all == False: # 如果不保留完整列表
         # 去除列表中的空格和长度小于等于3的元素
         for i in list_clean[:]:
             if i == ' ' or len(i) < 4:
                 list_clean.remove(i)
-        # # 剔除重复项
-        # list_clean = set(list_clean)
-        # list_clean = list(list_clean)
 
     # 对列表排序
     list_clean = sorted(list_clean)
