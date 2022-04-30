@@ -2,6 +2,7 @@
 
 from doctest import DONT_ACCEPT_BLANKLINE
 from initializing_process import clean_doc, initializing_doc_main
+import time
 
 # 用户输入方式获取生词位置
 
@@ -9,12 +10,43 @@ input_file_name = input("\n请输入生词文件名称（不要包含扩展名�
 obj_path = "C:\\Users\\bowen\\Desktop\\" + input_file_name + ".txt"
 
 # 获取初始化的文件
+time_1 = time.perf_counter()
 
-basic_list = initializing_doc_main("熟词库.txt")
+user_prompt = "正在初始化文件......"
+print(user_prompt)
+
+basic_list = initializing_doc_main("familiar_vocabulary.txt")
 basic_list = set(basic_list)
 basic_list = list(basic_list)
 basic_list = sorted(basic_list)
 obj_list = initializing_doc_main(obj_path)
+
+
+def get_running_time(time_1, time_2):
+    """计算运行时间，返回字符串
+
+    Args:
+        time_1 (_type_): _description_
+        time_2 (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    middle_time = time_2 - time_1
+    if middle_time >= 60:
+        minites = int(middle_time / 60)
+        seconds = round(middle_time % 60)
+        run_time = str(minites) + "min" + str(seconds) + "sec"
+        return run_time
+    else:
+        run_time = str(round(middle_time, 2)) + "sec"
+        return run_time
+    
+user_prompt = "文档初始化完成，单词数：" + str(len(obj_list)) + \
+    "\n正在处理单词......"
+print(user_prompt)
+
+# print("文档初始化完成------用时")
 
 # 粗过滤
 
@@ -87,6 +119,10 @@ for i in danci_freq_1:
     if len(i) <= 3:
         danci_freq_1.remove(i)
 
+time_2 = time.perf_counter()
+run_time = get_running_time(time_1, time_2)
+user_prompt = "单词处理完成 Runtime: " + run_time
+print(user_prompt)
 
 # 过滤频率大于等于3的单词
 
@@ -96,8 +132,9 @@ known_temp_path = "C:\\Users\\bowen\\Desktop\\熟词暂存备份.txt"
 f3a_known_list = []
 f3a_unknown_list = []
 
-print("\n开始过滤频率>=3的单词：\n")
-print("--------------------")
+user_prompt = "====================\n开始过滤词频>=3的单词......" 
+# print("\n开始过滤频率>=3的单词：\n")
+# print("====================")
 
 for i in sorted(danci_freq_3a):
 
@@ -197,7 +234,6 @@ actural_percentage = str(round(count / len(obj_for_statistic) * 100, 1)) + "%"
 count_msg1 = "\n本次单词总数：" + str(len(obj_for_statistic))
 count_msg2 = "本次实际生词总数（含重复）：" + str(count)
 count_msg3 = "本次实际生词率：" + actural_percentage 
-
 count_msg = count_msg1 + "\n" + count_msg2 + "\n" + count_msg3
 
 # 自定义导出文件名称
@@ -213,7 +249,7 @@ out_file_name = input("\n请输入导出文件的名称：")
 
 known_list = f1_known_list + f2_known_list + f3a_known_list
 
-with open("熟词库", 'a') as f_obj:
+with open("familiar_vocabulary.txt", 'a') as f_obj:
 
     # file_name = input("\n请输入本次文件名称：\n")
 
