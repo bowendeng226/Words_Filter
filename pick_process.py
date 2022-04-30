@@ -39,7 +39,7 @@ def get_word_frequency(word_list):
     word_freq = {}
     for a in word_list:
         count = count_words(a, word_list)
-    word_freq[a] = count
+        word_freq[a] = count
 
     danci_freq_3a = [] # 频率大于等于3的生词列表
     danci_freq_2 =[]  # 频率为2的生词列表
@@ -72,16 +72,13 @@ def final_pick(word_list):
     Args:
         word_list (_type_): _description_
     """
-    # unknown_temp_path = "C:\\Users\\bowen\\Desktop\\生词暂存备份.txt"
-    # known_temp_path = "C:\\Users\\bowen\\Desktop\\熟词暂存备份.txt"
     known_words = []
     unknown_words = []
-    # user_prompt = "====================\n开始过滤词频>=3的单词......" 
-    # print("\n开始过滤频率>=3的单词：\n")
-    # print("====================")
+
     for i in sorted(word_list):
+
         #获取该单词位置
-        position = str(word_list.index(i)) + '/' + str(len(word_list)) 
+        position = str(word_list.index(i) + 1) + '/' + str(len(word_list)) 
         print(position) # 提示完成度
 
         answer = input(i + " 熟词按1，跳过按2，生词按3：")
@@ -91,7 +88,6 @@ def final_pick(word_list):
             print("------ " + i + " 已添加到熟词\n")
         elif answer == '3':
             unknown_words.append(i)
-            # un_f_obj.write(i + "***3+ \n") #写入暂存生词
             print("已添加到生词列表\n")
         else:
             print("已跳过\n")
@@ -100,13 +96,11 @@ def final_pick(word_list):
 
 def pick_main(object_list, basic_list):
     """
-    返回不包含重复的单词统计信息
     """
     # 提取生词列表
     word_list = pick_words(object_list, basic_list)
     shengci_list = word_list[0]
     shuci_list = word_list[1]
-    kn_i = len(shuci_list)
 
     # 获取词频列表
     freq_list = get_word_frequency(shengci_list)
@@ -114,61 +108,75 @@ def pick_main(object_list, basic_list):
     freq_2 = freq_list[1]
     freq_3a = freq_list[2]
 
-    print("本次需要过滤的单词数量：" + str(len(freq_1 + freq_2 + freq_3a)))
-
     unknown_f_name = r"C:\users\bowen\desktop\本次生词.txt"
     known_f_name = r"C:\users\bowen\desktop\本次熟词"
 
-    # 过滤词频大于等于3的单词
-    print("Frequency 3 words start: \n")
-    picked_words = final_pick(freq_3a)
-    known_words = picked_words[0]
-    unknown_words = picked_words[1]
-    with open(unknown_f_name, 'a') as un_obj, \
-        open(known_f_name, 'a') as kn_obj:
-        un_obj.write("Words frequency >= 3: \n")
-        for w in unknown_words:
-            un_obj.write(w + " ")
-        for w in known_words:
-            kn_obj.write(w + " ")
-    un_i = len(unknown_words) # 计算单词数
-    kn_i += len(known_words)
-    word_count = [unknown_words]
+    prompt = input("是否需要精确过滤(y/n)：")
 
-    # 词频2
-    print("Frequency 2 words start: \n")
-    picked_words = final_pick(freq_2)
-    known_words = picked_words[0]
-    unknown_words = picked_words[1]
-    with open(unknown_f_name, 'a') as un_obj, \
-        open(known_f_name, 'a') as kn_obj:
-        un_obj.write("Words frequency 2: \n")
-        for w in unknown_words:
-            un_obj.write(w + " ")
-        for w in known_words:
-            kn_obj.write(w + " ")
-    un_i += len(unknown_words)
-    kn_i += len(known_words)
-    word_count += unknown_words
+    if prompt.lower() == 'y':
+        print("开始手动过滤......")
+        print("本次需要过滤的单词数量：" + str(len(freq_1 + freq_2 + freq_3a)))
 
-    # 词频1
-    print("Frequency 1 words start: \n")
-    picked_words = final_pick(freq_1)
-    known_words = picked_words[0]
-    unknown_words = picked_words[1]
-    with open(unknown_f_name, 'a') as un_obj, \
-        open(known_f_name, 'a') as kn_obj:
-        un_obj.write("Words frequency 1: \n")
-        for w in unknown_words:
-            un_obj.write(w + " ")
-        for w in known_words:
-            kn_obj.write(w + " ")
-    un_i += len(unknown_words)
-    kn_i += len(known_words)
-    word_count += unknown_words
-    # return [un_i, kn_i]
-    return word_count
+        # 过滤词频大于等于3的单词
+        print("Frequency 3 words start: \n")
+        picked_words = final_pick(freq_3a)
+        known_words = picked_words[0]
+        unknown_words = picked_words[1]
+        with open(unknown_f_name, 'a') as un_obj, \
+            open(known_f_name, 'a') as kn_obj:
+            un_obj.write("\nWords frequency >= 3: \n")
+            for w in unknown_words:
+                un_obj.write(w + " ")
+            for w in known_words:
+                kn_obj.write(w + " ")
 
+        word_count = [unknown_words]
+
+        # 词频2
+        print("Frequency 2 words start: \n")
+        picked_words = final_pick(freq_2)
+        known_words = picked_words[0]
+        unknown_words = picked_words[1]
+        with open(unknown_f_name, 'a') as un_obj, \
+            open(known_f_name, 'a') as kn_obj:
+            un_obj.write("\n\nWords frequency 2: \n")
+            for w in unknown_words:
+                un_obj.write(w + " ")
+            for w in known_words:
+                kn_obj.write(w + " ")
+
+        word_count += unknown_words
+
+        # 词频1
+        print("Frequency 1 words start: \n")
+        picked_words = final_pick(freq_1)
+        known_words = picked_words[0]
+        unknown_words = picked_words[1]
+        with open(unknown_f_name, 'a') as un_obj, \
+            open(known_f_name, 'a') as kn_obj:
+            un_obj.write("\n\nWords frequency 1: \n")
+            for w in unknown_words:
+                un_obj.write(w + " ")
+            for w in known_words:
+                kn_obj.write(w + " ")
+
+        word_count += unknown_words
+        return word_count
+    else:
+        with open(unknown_f_name, 'a') as unknown_obj, \
+            open(known_f_name, 'a') as known_obj:
+            unknown_obj.write("\nWords frequency 3a: \n")
+            for word in freq_3a:
+                unknown_obj.write(word + " ")
+            unknown_obj.write("\n\nWords frequency 2: \n")
+            for word in freq_2:
+                unknown_obj.write(word + " ")
+            unknown_obj.write("\n\nWords frequency 1: \n")
+            for word in freq_1:
+                unknown_obj.write(word + " ")
+            
+            word_count = freq_1 + freq_2 + freq_3a
+            return word_count
 
     
 

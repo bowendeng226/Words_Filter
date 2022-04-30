@@ -1,5 +1,8 @@
 """本文件中储存的是与主程序无关的，但却被用到的一些工具，例如计时器等
+本文件包含：计时器
 """
+import os
+# from main import main
 
 def get_running_time(time_1, time_2):
     """计算运行时间，返回字符串，e.g.“20sec"、"20min20sec"
@@ -20,3 +23,14 @@ def get_running_time(time_1, time_2):
     else:
         run_time = str(round(middle_time, 2)) + "sec"
         return run_time
+
+
+# def little_docs(doc_file):
+#     """
+
+#     Args:
+#         doc_list (_type_): _description_
+#     """
+#     doc_list = os.listdir(doc_file)
+#     for doc in doc_list:
+        
