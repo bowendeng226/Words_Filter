@@ -22,18 +22,25 @@ def clean_doc(file_name, keep_all=True):
     half_punctuations = "`~!@#$%^&*()-_=+[{]}\|;:'" + '",<.>/?'
     full_punctuations = "·~！@#￥%……&*（）-——=+【{】}、|；：‘’“”，《。》/？"
     punctuations = half_punctuations + full_punctuations
+    numbers = "1234567890"
 
     # 去除文档里的标点符号
-    with open(file_name) as f_obj:
+    with open(file_name, encoding='utf-8') as f_obj:
         contents = f_obj.read()
         for p in punctuations:
             if p in contents:
                 contents = contents.replace(p, ' ')
+        prompt = input("是否过滤数字(y/n)：")
+        if prompt.lower() == 'y':
+            for n in numbers:
+                if n in contents:
+                    contents = contents.replace(n, ' ')
 
     # 将单词转为列表
     content_list = contents.split()
 
     # 去除元素的前后空格以及全部小写
+
     list_clean = []
     for i in content_list:
         i = i.strip().lower()
@@ -50,6 +57,7 @@ def clean_doc(file_name, keep_all=True):
                 list_clean.remove(i)
 
     # 对列表排序
+
     list_clean = sorted(list_clean)
 
     return list_clean

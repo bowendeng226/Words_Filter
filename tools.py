@@ -33,4 +33,3 @@ def get_running_time(time_1, time_2):
 #     """
 #     doc_list = os.listdir(doc_file)
 #     for doc in doc_list:
-        

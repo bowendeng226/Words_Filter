@@ -75,6 +75,13 @@ def final_pick(word_list):
     known_words = []
     unknown_words = []
 
+    prompt = input("是否过滤长度<=4的单词(y/n)：")
+    if prompt.lower() == 'y':
+        guolv_list = word_list[:]
+        for w in guolv_list:
+            if len(w) <= 4:
+                word_list.remove(w)
+
     for i in sorted(word_list):
 
         #获取该单词位置
@@ -85,6 +92,8 @@ def final_pick(word_list):
         if answer == '1':
             known_words.append(i)
             # kn_f_obj.write(i + " ") #写入暂存熟词
+            # with open("familiar_vocabulary.txt", 'a') as f_obj:
+            #     f_obj.write(i + ' ') # 写入熟词库
             print("------ " + i + " 已添加到熟词\n")
         elif answer == '3':
             unknown_words.append(i)
@@ -99,6 +108,7 @@ def pick_main(object_list, basic_list):
     """
     # 提取生词列表
     word_list = pick_words(object_list, basic_list)
+    print("已完成初步过滤\n获取单词词频中......")
     shengci_list = word_list[0]
     shuci_list = word_list[1]
 
@@ -108,10 +118,12 @@ def pick_main(object_list, basic_list):
     freq_2 = freq_list[1]
     freq_3a = freq_list[2]
 
-    unknown_f_name = r"C:\users\bowen\desktop\本次生词.txt"
-    known_f_name = r"C:\users\bowen\desktop\本次熟词"
+    store_name = input("文件储存名：")
 
-    prompt = input("是否需要精确过滤(y/n)：")
+    unknown_f_name = "C:\\users\\bowen\\desktop\\" + store_name + "生词.txt"
+    known_f_name = "C:\\users\\bowen\\desktop\\" + store_name + "本次熟词.txt"
+
+    prompt = input("词频计算完成\n是否需要精确过滤(y/n)：")
 
     if prompt.lower() == 'y':
         print("开始手动过滤......")
@@ -147,24 +159,32 @@ def pick_main(object_list, basic_list):
 
         word_count += unknown_words
 
+
         # 词频1
-        print("Frequency 1 words start: \n")
-        picked_words = final_pick(freq_1)
-        known_words = picked_words[0]
-        unknown_words = picked_words[1]
-        with open(unknown_f_name, 'a') as un_obj, \
-            open(known_f_name, 'a') as kn_obj:
-            un_obj.write("\n\nWords frequency 1: \n")
-            for w in unknown_words:
-                un_obj.write(w + " ")
-            for w in known_words:
-                kn_obj.write(w + " ")
+        prompt = input("是否过滤词频1的单词（可能较为耗时）y/n：")
+        if prompt.lower() == 'y':
+            print("Frequency 1 words start: \n")
+            picked_words = final_pick(freq_1)
+            known_words = picked_words[0]
+            unknown_words = picked_words[1]
+            with open(unknown_f_name, 'a') as un_obj, \
+                open(known_f_name, 'a') as kn_obj:
+                un_obj.write("\n\nWords frequency 1: \n")
+                for w in unknown_words:
+                    un_obj.write(w + " ")
+                for w in known_words:
+                    kn_obj.write(w + " ")
+        else:
+            word_count = freq_1
+            with open(unknown_f_name, 'a') as unknown_obj:
+                unknown_obj.write("\n\nWords frequency 1(not filtered): \n")
 
         word_count += unknown_words
         return word_count
     else:
-        with open(unknown_f_name, 'a') as unknown_obj, \
-            open(known_f_name, 'a') as known_obj:
+        print("正在写入文件")
+        with open(unknown_f_name, 'a', encoding='utf-8') as unknown_obj, \
+            open(known_f_name, 'a', encoding='utf-8') as known_obj:
             unknown_obj.write("\nWords frequency 3a: \n")
             for word in freq_3a:
                 unknown_obj.write(word + " ")
